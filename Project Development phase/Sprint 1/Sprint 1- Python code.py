@@ -5,15 +5,11 @@ import ibmiotf.device
 import random
 
 
-#Provide your IBM Watson Device Credentials
-organization = "lcft5g" 
-deviceType = "Final"
-deviceId = "Hello"
+organization = "u0b4fr" 
+deviceType = "TestdriveDevice"
+deviceId = "TestdriveDevice_1"
 authMethod = "token"
 authToken = "8300113450"
-
-# Initialize GPIO 
-        
 
 try:
 	deviceOptions = {"org": organization, "type": deviceType, "id": deviceId, "auth-method": authMethod, "auth-token": authToken}
@@ -24,19 +20,16 @@ except Exception as e:
 	print("Caught exception connecting device: %s" % str(e))
 	sys.exit()
 
-# Connect and send a datapoint "hello" with value "world" into the cloud as an event of type "greeting" 10 times
 deviceCli.connect()
 
 while True:
-        #Get Sensor Data from DHT11
+        
         
         temp=random.randint(0,100)
         Humid=random.randint(0,100)
         Gas=random.randint(0,100)
         
         data = { 'temp' : temp, 'Humid': Humid, 'Gas':Gas }
-
-        #print data
         def myOnPublishCallback():
             print ("Published Temperature = %s C" % temp, "Humidity = %s %%" % Humid, "Gas Concentration = %s"%Gas "to IBM Watson")
 
@@ -46,6 +39,4 @@ while True:
         time.sleep(10)
         
         deviceCli.commandCallback = myCommandCallback
-
-# Disconnect the device and application from the cloud
 deviceCli.disconnect()
